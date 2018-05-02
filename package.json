@@ -1,0 +1,11 @@
+{
+  "name": "phone-number-formatter",
+  "version": "1.0.0",
+  "description": "Format phone numbers",
+  "repository": "drewthoennes/phone-number-formatter",
+  "author": {
+    "name": "Drew Thoennes",
+    "email": "dthoenne@purdue.edu"
+  },
+  "license": "MIT"
+}
