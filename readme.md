@@ -36,18 +36,18 @@ Type: `string`
 Type: `object`
 
 ##### type
-Type: `string`
-Default: `local`
+Type: `string`<br>
+Default: `local`<br>
 Accepted: [`local`|`domestic`|`international`]
 
 ##### areaCode
-Type: `string`
-Default: `1`
+Type: `string`<br>
+Default: `1`<br>
 Accepted: `*`
 
 ##### separator
-Type: `string`
-Default: ``
+Type: `string`<br>
+Default: ` `<br>
 Accepted: `*`
 
 ## License
