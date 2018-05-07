@@ -56,4 +56,4 @@ Get phone number as a string
 
 ## License
 
-[MIT](https://github.com/drewthoennes/phone-number-formatter/blob/master/license)
+[MIT](https://github.com/drewthoennes/phone-number-formats/blob/master/license)
