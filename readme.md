@@ -21,6 +21,9 @@ phoneNumberFormatter('3-141-592-6535', {type: 'domestic'})
 
 phoneNumberFormatter('18008675309', {type: 'international', separator: '.'})
 // +1.800.867.5309
+
+phoneNumberFormatter('+1 (800) 271-8281', {type: 'international', areaCode: '996'})
+// +996 (800) 271-8281
 ```
 
 
@@ -49,6 +52,10 @@ Accepted: `*`
 Type: `string`<br>
 Default: ` `<br>
 Accepted: `*`
+
+#### letters
+Type: `boolean`<br>
+Default: `true`<br>
 
 ## License
 

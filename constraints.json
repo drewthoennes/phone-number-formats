@@ -1,5 +1,6 @@
 {
   "local": "7",
   "domestic": "10",
-  "international": "11"
+  "international": "11",
+  "convertMin": "7"
 }

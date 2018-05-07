@@ -12,3 +12,5 @@ assert.deepEqual(phoneNumberFormatter('+21 (123) 456-7890', {type: 'internationa
 assert.deepEqual(phoneNumberFormatter('2305466328210', {type: 'international', areaCode: '230', separator: '.'}), '+230.546.632.8210');
 
 console.log('All test cases passed');
+
+console.log(phoneNumberFormatter('123DREW'));
