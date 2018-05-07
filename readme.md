@@ -1,6 +1,6 @@
 # Phone Number Formatter
 
-This package can help format numbers into formal phone numbers or translate phone numbers into other formats
+Easy way to format and convert phone numbers **now with method chaining**
 
 ## Install
 
@@ -13,49 +13,46 @@ $ npm install phone-number-formatter
 ```js
 const phoneNumberFormatter = require('phone-number-formatter');
 
-phoneNumberFormatter('1234567')
+let home = new phoneNumberFormatter('1234567').format();
 // 123-4567
 
-phoneNumberFormatter('3-141-592-6535', {type: 'domestic'})
+let work = new phoneNumberFormatter('3-141-592-6535').format({type: 'domestic'});
 // (141) 592-6535
 
-phoneNumberFormatter('18008675309', {type: 'international', separator: '.'})
+let boss = new phoneNumberFormatter('18008675309').format({type: 'international', separator: '.'});
 // +1.800.867.5309
 
-phoneNumberFormatter('+1 (800) 271-8281', {type: 'international', areaCode: '996'})
+let drew = new phoneNumberFormatter('+1 (800) 271-WHAT').format({type: 'international', areaCode: '996'}).convert();
 // +996 (800) 271-8281
+
 ```
 
 
 ## API
 
-### phoneNumberFormatter(number, [options])
-Return: `string`
+### format
 
-#### number
-Type: `string`
+Format the number to local, domestic, or international
 
-#### options
-Type: `object`
+```js
+let number = new phoneNumberFormatter('18001234567');
+number.format({type: 'international', areaCode: '996', separator: '.', letters: true});
+// +996.(800).123.4567
+```
 
-##### type
-Type: `string`<br>
-Default: `local`<br>
-Accepted: [`local`|`domestic`|`international`]
+### convert
 
-##### areaCode
-Type: `string`<br>
-Default: `1`<br>
-Accepted: `*`
+Convert any letters to numbers
 
-##### separator
-Type: `string`<br>
-Default: ` `<br>
-Accepted: `*`
+```js
+let number = new phoneNumberFormatter('123WHAT');
+number.convert();
+// 1239428
+```
 
-#### letters
-Type: `boolean`<br>
-Default: `true`<br>
+### toString
+
+Get phone number as a string
 
 ## License
 
