@@ -5,13 +5,13 @@ Easy way to format and convert phone numbers **now with method chaining**
 ## Install
 
 ```bash
-$ npm install phone-number-formatter
+$ npm install phone-number-formats
 ```
 
 ## Usage
 
 ```js
-const phoneNumberFormatter = require('phone-number-formatter');
+const phoneNumberFormatter = require('phone-number-formats');
 
 let home = new phoneNumberFormatter('1234567').format();
 // 123-4567
