@@ -55,7 +55,7 @@ number.convert();
 Get phone number as a string
 
 
-### Add Type
+### addType
 
 Add new type to be used in format method
 
@@ -64,6 +64,15 @@ Add new type to be used in format method
 phoneNumberFormatter.addType('china', '0 +591 XXX-XXX');
 number = new phoneNumberFormatter('0591314159').format({type: 'china'});
 // 0 +591 314-159
+```
+
+### getType
+
+Gets the key for any default or custom type
+
+```js
+phoneNumberFormatter.getType('china');
+// 0 +591 XXX-XXX
 ```
 
 ## License

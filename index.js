@@ -135,3 +135,11 @@ module.exports.addType = function(name, string) {
   types[name]['length'] = string.replace(/[^0-9]/g, '').length;
   return true;
 }
+
+ module.exports.getType = function(name) {
+   if (!types[name]) {
+     throw new TypeError('Type of name `' + name + '` does not exist.');
+   }
+
+   return (types[name]['key']);
+ }

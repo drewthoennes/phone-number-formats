@@ -66,4 +66,7 @@ phoneNumberFormatter.addType('helloWorld', 'XXXXX XXXXX');
 number = new phoneNumberFormatter('Hello World').format({type: 'helloWorld', separator: '_'});
 assert.deepEqual(number.toString(), 'Hello_World');
 
+// Checking if getType retrieves the correct key
+assert.deepEqual(phoneNumberFormatter.getType('china'), '0 +591 XXX-XXX');
+
 console.log('All test cases passed');
