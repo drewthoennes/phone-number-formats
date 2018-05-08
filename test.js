@@ -27,6 +27,14 @@ assert.deepEqual(number.toString(), '(123) 456-7890');
 number = new phoneNumberFormatter('01234567890').format({type: 'international'});
 assert.deepEqual(number.toString(), '+0 (123) 456-7890');
 
+// Checking if normally-short numbers can be formatted to `international` with the correct area code
+number = new phoneNumberFormatter('1234567890').format({type: 'international', areaCode: '3'});
+assert.deepEqual(number.toString(), '+3 (123) 456-7890');
+
+// Checking if `international` numbers with area codes exclude extra characters
+number = new phoneNumberFormatter('1.618033988749894').format({type: 'international', areaCode: '0'});
+assert.deepEqual(number.toString(), '+0 (398) 874-9894');
+
 // Checking area codes on international numbers
 number = new phoneNumberFormatter('+21 (123) 456-7890').format({type: 'international', areaCode: '3'});
 assert.deepEqual(number.toString(), '+3 (123) 456-7890');
@@ -45,7 +53,7 @@ assert.deepEqual(number.toString(), '448-4373');
 
 // Adding new type and converting
 phoneNumberFormatter.addType('china', '0 +591 XXX-XXX');
-number = new phoneNumberFormatter('05918675309').format({type: 'china'});
+number = new phoneNumberFormatter('675309').format({type: 'china'});
 assert.deepEqual(number.toString(), '0 +591 675-309');
 
 // Checking custom type with arguments

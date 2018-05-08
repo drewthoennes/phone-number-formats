@@ -65,13 +65,18 @@ module.exports = class phoneNumberFormatter {
     let keyLength = types[options['type']]['length'];
 
     if (options['letters']) {
+      // Remove all but letters and numbers
       this.string = this.string.replace(/[^a-zA-Z0-9]/g, '');
     } else {
+      // Remove all but numbers
       this.string = this.string.replace(/\D/g, '');
     }
 
     if (this.string.length < keyLength) {
-      throw new TypeError('Expected a sufficient number of numbers. Needed ' + keyLength + ' but got: ' + this.string.length);
+      // Allows too-short numbers to be converted to international with an area code
+      if (this.string.length + options['areaCode'].length < keyLength && options['type'] !== 'international') {
+        throw new TypeError('Expected a sufficient number of numbers. Needed ' + keyLength + ' but got: ' + this.string.length);
+      }
     }
 
     // Set string to the area code and the number minus the area code (assumes type is international)
