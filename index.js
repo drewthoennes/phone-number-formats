@@ -23,7 +23,6 @@ const privateMethods = {
     return value;
   }
 }
-const convertMin = 7;
 
 let types = {
   'local': {
@@ -35,7 +34,7 @@ let types = {
     'length': '10'
   },
   'international': {
-    'key': '+XXX (XXX) XXX-XXXX',
+    'key': '+YYY (XXX) XXX-XXXX',
     'length': '11'
   }
 }
@@ -58,7 +57,7 @@ module.exports = class phoneNumberFormatter {
 
     // Check if type exists
     if (!types[options['type']]) {
-      throw new TypeError('Expected a valid type parameter but got type: ' + options['type']);
+     throw new TypeError('Type of name `' + name + '` does not exist');
     }
 
     let key = types[options['type']]['key'];
@@ -85,16 +84,36 @@ module.exports = class phoneNumberFormatter {
     }
 
     let index;
+    let X;
+    let Y;
+    let i;
     let newString = key;
-    for (var i = this.string.length - 1; i >= 0; i--) {
-      if (!newString.includes('X')) break;
+    if (!options['areaCode']) {
+      for (i = this.string.length - 1; i >= 0; i--) {
+        if (!newString.includes('X') && !newString.includes('Y')) break;
 
-      index = newString.lastIndexOf('X');
-      newString = newString.substring(0, index) + this.string[i] + newString.substring(index + 1);
+        X = newString.lastIndexOf('X');
+        Y = newString.lastIndexOf('Y');
+        index = (X > Y) ? X : Y;
+        newString = newString.substring(0, index) + this.string[i] + newString.substring(index + 1);
+      }
+    } else {
+      for (i = this.string.length - 1; i >= 0; i--) {
+        if (!newString.includes('X')) break;
+
+        index = newString.lastIndexOf('X');
+        newString = newString.substring(0, index) + this.string[i] + newString.substring(index + 1);
+      }
+      for (i = options['areaCode'].length - 1; i >= 0; i--) {
+        if (!newString.includes('Y')) break;
+
+        index = newString.lastIndexOf('Y');
+        newString = newString.substring(0, index) + options['areaCode'][i] + newString.substring(index + 1);
+      }
     }
 
-    // Remove excess X's
-    newString = newString.replace(/X/g, '');
+    // Remove excess X's and Y's
+    newString = newString.replace(/X|Y/g, '');
     this.string = newString;
 
     // If a separator, remove and replace non-numeric characters
@@ -112,10 +131,6 @@ module.exports = class phoneNumberFormatter {
   }
 
   convert() {
-    if (this.string.length < convertMin) {
-      throw new TypeError('Expected a sufficient number of numbers. Needed ' + convertMin + ' but got: ' + this.string.length);
-    }
-
     let letter = '';
     for (var i = this.string.length - 1; i >= 0; i--) {
       this.string = this.string.substring(0, i) + privateMethods.convertSingleChar(this.string[i]) + this.string.substring(i + 1);
@@ -138,7 +153,7 @@ module.exports.addType = function(name, string) {
 
  module.exports.getType = function(name) {
    if (!types[name]) {
-     throw new TypeError('Type of name `' + name + '` does not exist.');
+     throw new TypeError('Type of name `' + name + '` does not exist');
    }
 
    return (types[name]['key']);

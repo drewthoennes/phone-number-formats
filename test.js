@@ -66,7 +66,19 @@ phoneNumberFormatter.addType('helloWorld', 'XXXXX XXXXX');
 number = new phoneNumberFormatter('Hello World').format({type: 'helloWorld', separator: '_'});
 assert.deepEqual(number.toString(), 'Hello_World');
 
+// Checking if the area code delimiter works
+phoneNumberFormatter.addType('short', 'YYY-XXX');
+number = new phoneNumberFormatter('123456').format({type: 'short'});
+assert.deepEqual(number.toString(), '123-456');
+number = new phoneNumberFormatter('456').format({type: 'short', areaCode: '123'});
+assert.deepEqual(number.toString(), '123-456');
+
 // Checking if getType retrieves the correct key
 assert.deepEqual(phoneNumberFormatter.getType('china'), '0 +591 XXX-XXX');
 
+// Checking if getType retrieves keys with delimiters
+assert.deepEqual(phoneNumberFormatter.getType('short'), 'YYY-XXX');
+
 console.log('All test cases passed');
+
+number = new phoneNumberFormatter('1234567').format({type: 'what'})

@@ -1,6 +1,6 @@
 # Phone Number Formatter
 
-Easy way to format and convert phone numbers now with **method chaining and custom formats**
+Easy way to format and convert phone numbers now with **method chaining and custom types**
 
 ## Install
 
@@ -60,9 +60,9 @@ Get phone number as a string
 Add new type to be used in format method
 
 ```js
-// The first argument is the name and the second is the number with X signifying numbers
-phoneNumberFormatter.addType('china', '0 +591 XXX-XXX');
-number = new phoneNumberFormatter('0591314159').format({type: 'china'});
+// The X's signify numbers and the Y's signify the area code
+phoneNumberFormatter.addType('china', '0 +YYY XXX-XXX');
+number = new phoneNumberFormatter('314159').format({type: 'china', areaCode: '591'});
 // 0 +591 314-159
 ```
 
@@ -72,8 +72,12 @@ Gets the key for any default or custom type
 
 ```js
 phoneNumberFormatter.getType('china');
-// 0 +591 XXX-XXX
+// 0 +YYY XXX-XXX
 ```
+
+## Examples
+
+See [test.js](https://github.com/drewthoennes/phone-number-formats/blob/master/test.js) for examples
 
 ## License
 
