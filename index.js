@@ -1,3 +1,4 @@
+const replaceAt = require('replace-at')
 const constants = require('./constants.json')
 const privateMethods = {
   convertSingleChar(char) {
@@ -95,20 +96,20 @@ module.exports = class phoneNumberFormatter {
         X = newString.lastIndexOf('X');
         Y = newString.lastIndexOf('Y');
         index = (X > Y) ? X : Y;
-        newString = newString.substring(0, index) + this.string[i] + newString.substring(index + 1);
+        newString = replaceAt(newString, index, this.string[i]);
       }
     } else {
       for (i = this.string.length - 1; i >= 0; i--) {
         if (!newString.includes('X')) break;
 
         index = newString.lastIndexOf('X');
-        newString = newString.substring(0, index) + this.string[i] + newString.substring(index + 1);
+        newString = replaceAt(newString, index, this.string[i]);
       }
       for (i = options['areaCode'].length - 1; i >= 0; i--) {
         if (!newString.includes('Y')) break;
 
         index = newString.lastIndexOf('Y');
-        newString = newString.substring(0, index) + options['areaCode'][i] + newString.substring(index + 1);
+        newString = replaceAt(newString, index, options['areaCode'][i]);
       }
     }
 
@@ -133,7 +134,7 @@ module.exports = class phoneNumberFormatter {
   convert() {
     let letter = '';
     for (var i = this.string.length - 1; i >= 0; i--) {
-      this.string = this.string.substring(0, i) + privateMethods.convertSingleChar(this.string[i]) + this.string.substring(i + 1);
+      this.string = replaceAt(this.string, i, privateMethods.convertSingleChar(this.string[i]))
     }
 
     return this;

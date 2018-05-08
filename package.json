@@ -7,5 +7,8 @@
     "name": "Drew Thoennes",
     "email": "dthoenne@purdue.edu"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "replace-at": "^1.0.0"
+  }
 }
