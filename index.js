@@ -25,17 +25,17 @@ const privateMethods = {
 }
 
 let types = {
-  'local': {
-    'key': 'XXX-XXXX',
-    'length': '7'
+  local: {
+    key: 'XXX-XXXX',
+    length: '7'
   },
-  'domestic': {
-    'key': '(XXX) XXX-XXXX',
-    'length': '10'
+  domestic: {
+    key: '(XXX) XXX-XXXX',
+    length: '10'
   },
-  'international': {
-    'key': '+YYY (XXX) XXX-XXXX',
-    'length': '11'
+  international: {
+    key: '+YYY (XXX) XXX-XXXX',
+    length: '11'
   }
 }
 
@@ -57,7 +57,7 @@ module.exports = class phoneNumberFormatter {
 
     // Check if type exists
     if (!types[options['type']]) {
-     throw new TypeError('Type of name `' + name + '` does not exist');
+     throw new TypeError('Type of name `' + options['type'] + '` does not exist');
     }
 
     let key = types[options['type']]['key'];

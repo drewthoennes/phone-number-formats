@@ -80,5 +80,3 @@ assert.deepEqual(phoneNumberFormatter.getType('china'), '0 +591 XXX-XXX');
 assert.deepEqual(phoneNumberFormatter.getType('short'), 'YYY-XXX');
 
 console.log('All test cases passed');
-
-number = new phoneNumberFormatter('1234567').format({type: 'what'})
