@@ -28,15 +28,27 @@ const privateMethods = {
 let types = {
   local: {
     key: 'XXX-XXXX',
-    length: '7'
+    length: '7',
+    delimiters: {
+      number: 'X',
+      areaCode: 'Y',
+    }
   },
   domestic: {
     key: '(XXX) XXX-XXXX',
-    length: '10'
+    length: '10',
+    delimiters: {
+      number: 'X',
+      areaCode: 'Y',
+    }
   },
   international: {
     key: '+YYY (XXX) XXX-XXXX',
-    length: '11'
+    length: '11',
+    delimiters: {
+      number: 'X',
+      areaCode: 'Y',
+    }
   }
 }
 
@@ -88,13 +100,15 @@ module.exports = class phoneNumberFormatter {
     let X;
     let Y;
     let i;
+    let numberDelimiter = types[options['type']]['delimiters']['number'];
+    let areaCodeDelimiter = types[options['type']]['delimiters']['areaCode'];
     let newString = key;
     if (!options['areaCode']) {
       for (i = this.string.length - 1; i >= 0; i--) {
-        if (!newString.includes('X') && !newString.includes('Y')) break;
+        if (!newString.includes(numberDelimiter) && !newString.includes(areaCodeDelimiter)) break;
 
-        X = newString.lastIndexOf('X');
-        Y = newString.lastIndexOf('Y');
+        X = newString.lastIndexOf(numberDelimiter);
+        Y = newString.lastIndexOf(areaCodeDelimiter);
         index = (X > Y) ? X : Y;
         newString = replaceAt(newString, index, this.string[i]);
       }
@@ -102,19 +116,19 @@ module.exports = class phoneNumberFormatter {
       for (i = this.string.length - 1; i >= 0; i--) {
         if (!newString.includes('X')) break;
 
-        index = newString.lastIndexOf('X');
+        index = newString.lastIndexOf(numberDelimiter);
         newString = replaceAt(newString, index, this.string[i]);
       }
       for (i = options['areaCode'].length - 1; i >= 0; i--) {
-        if (!newString.includes('Y')) break;
+        if (!newString.includes(areaCodeDelimiter)) break;
 
-        index = newString.lastIndexOf('Y');
+        index = newString.lastIndexOf(areaCodeDelimiter);
         newString = replaceAt(newString, index, options['areaCode'][i]);
       }
     }
 
     // Remove excess X's and Y's
-    newString = newString.replace(/X|Y/g, '');
+    newString = newString.replace(new RegExp(numberDelimiter + '|' + areaCodeDelimiter, 'g'), '');
     this.string = newString;
 
     // If a separator, remove and replace non-numeric characters
@@ -145,10 +159,18 @@ module.exports = class phoneNumberFormatter {
   }
 }
 
-module.exports.addType = function(name, string) {
+module.exports.addType = function(name, string, options) {
+  options = Object.assign({
+    number: 'X',
+    areaCode: 'Y'
+  }, options);
+
   types[name] = {};
   types[name]['key'] = string;
   types[name]['length'] = string.replace(/[^0-9]/g, '').length;
+  types[name]['delimiters'] = {};
+  types[name]['delimiters']['number'] = options['number'];
+  types[name]['delimiters']['areaCode'] = options['areaCode'];
   return true;
 }
 

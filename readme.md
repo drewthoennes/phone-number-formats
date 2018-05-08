@@ -60,10 +60,15 @@ Get phone number as a string
 Add new type to be used in format method
 
 ```js
-// The X's signify numbers and the Y's signify the area code
+// The X's signify numbers and the Y's signify the area code by default
 phoneNumberFormatter.addType('china', '0 +YYY XXX-XXX');
 number = new phoneNumberFormatter('314159').format({type: 'china', areaCode: '591'});
 // 0 +591 314-159
+
+// Different letters or symbols can be used as delimiters
+phoneNumberFormatter.addType('x-ray', '(VVV) WWW-XRAY', {number: 'W', areaCode: 'V'});
+number = new phoneNumberFormatter('314159').format({type: 'x-ray'});
+// (314) 159-XRAY
 ```
 
 ### getType

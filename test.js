@@ -73,6 +73,11 @@ assert.deepEqual(number.toString(), '123-456');
 number = new phoneNumberFormatter('456').format({type: 'short', areaCode: '123'});
 assert.deepEqual(number.toString(), '123-456');
 
+// Checking custom type with letters
+phoneNumberFormatter.addType('customDelimiters', '(VVV) WWW-XRAY', {number: 'W', areaCode: 'V'});
+number = new phoneNumberFormatter('369124').format({type: 'customDelimiters'});
+assert.deepEqual(number.toString(), '(369) 124-XRAY');
+
 // Checking if getType retrieves the correct key
 assert.deepEqual(phoneNumberFormatter.getType('china'), '0 +591 XXX-XXX');
 
