@@ -35,9 +35,13 @@ assert.deepEqual(number.toString(), '+3 (123) 456-7890');
 number = new phoneNumberFormatter('2305466328210').format({type: 'international', areaCode: '230', separator: '.'})
 assert.deepEqual(number.toString(), '+230.546.632.8210');
 
-// Checking letter conversions
+// Checking letter conversion
 number = new phoneNumberFormatter('1800765BTFU').format({type: 'international'}).convert();
 assert.deepEqual(number.toString(), '+1 (800) 765-2838');
+
+// Checking conversion of completely lettered numbers
+number = new phoneNumberFormatter('HiThere').format().convert();
+assert.deepEqual(number.toString(), '448-4373');
 
 // Adding new type and converting
 phoneNumberFormatter.addType('china', '0 +591 XXX-XXX');

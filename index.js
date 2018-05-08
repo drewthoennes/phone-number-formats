@@ -24,7 +24,6 @@ const privateMethods = {
   }
 }
 const convertMin = 7;
-const convertLength = 4;
 
 let types = {
   'local': {
@@ -113,7 +112,7 @@ module.exports = class phoneNumberFormatter {
     }
 
     let letter = '';
-    for (var i = this.string.length - 1; i >= this.string.length - convertLength; i--) {
+    for (var i = this.string.length - 1; i >= 0; i--) {
       this.string = this.string.substring(0, i) + privateMethods.convertSingleChar(this.string[i]) + this.string.substring(i + 1);
     }
 
