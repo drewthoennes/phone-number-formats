@@ -1,6 +1,6 @@
 # Phone Number Formatter
 
-Easy way to format and convert phone numbers **now with method chaining**
+Easy way to format and convert phone numbers now with **method chaining and custom formats**
 
 ## Install
 
@@ -53,6 +53,18 @@ number.convert();
 ### toString
 
 Get phone number as a string
+
+
+### Add Type
+
+Add new type to be used in format method
+
+```js
+// The first argument is the name and the second is the number with X signifying numbers
+phoneNumberFormatter.addType('china', '0 +591 XXX-XXX');
+number = new phoneNumberFormatter('0591314159').format({type: 'china'});
+// 0 +591 314-159
+```
 
 ## License
 
