@@ -1,4 +1,4 @@
-# Phone Number Formatter
+# Phone Number Formats
 
 Easy way to format and convert phone numbers now with **method chaining and custom types**
 
@@ -32,7 +32,7 @@ let drew = new phoneNumberFormatter('+1 (800) 271-WHAT').format({type: 'internat
 
 ### format
 
-Format the number to local, domestic, or international
+Format the number to local, domestic, international, or a custom type
 
 ```js
 let number = new phoneNumberFormatter('18001234567');

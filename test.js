@@ -3,8 +3,12 @@ const phoneNumberFormatter = require('./index.js');
 
 console.log('--- Testing ---');
 
+// Checking the type of unformatted numbers
+let number = new phoneNumberFormatter('1248163');
+assert.deepEqual(number.getType(), null);
+
 // Default formatting
-let number = new phoneNumberFormatter('1234567').format();
+number = new phoneNumberFormatter('1234567').format();
 assert.deepEqual(number.toString(), '123-4567');
 
 // Excluding extra characters
@@ -22,6 +26,9 @@ assert.deepEqual(number.toString(), '456-7890');
 // Checking `domestic` type
 number = new phoneNumberFormatter('1234567890').format({type: 'domestic'});
 assert.deepEqual(number.toString(), '(123) 456-7890');
+
+// Checking getting types
+assert.deepEqual(number.getType(), 'domestic');
 
 // Checking `international` type
 number = new phoneNumberFormatter('01234567890').format({type: 'international'});
@@ -77,6 +84,9 @@ assert.deepEqual(number.toString(), '123-456');
 phoneNumberFormatter.addType('customDelimiters', '(VVV) WWW-XRAY', {number: 'W', areaCode: 'V'});
 number = new phoneNumberFormatter('369124').format({type: 'customDelimiters'});
 assert.deepEqual(number.toString(), '(369) 124-XRAY');
+
+// Checking getting custom types
+assert.deepEqual(number.getType(), 'customDelimiters');
 
 // Checking if getType retrieves the correct key
 assert.deepEqual(phoneNumberFormatter.getType('china'), '0 +591 XXX-XXX');

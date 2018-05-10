@@ -1,5 +1,4 @@
 const replaceAt = require('replace-at')
-const constants = require('./constants.json')
 const privateMethods = {
   convertSingleChar(char) {
     const keyboard = {
@@ -58,6 +57,7 @@ module.exports = class phoneNumberFormatter {
       throw new TypeError('Expected a string but got type: ' + typeof(number));
     }
     this.string = string;
+    this.type = null;
   }
 
   format(options) {
@@ -91,14 +91,14 @@ module.exports = class phoneNumberFormatter {
       }
     }
 
+    this.type = options['type'];
+
     // Set string to the area code and the number minus the area code (assumes type is international)
     if (options['areaCode'] && options['type'] === 'international') {
       this.string = options['areaCode'] + this.string.substring(this.string.length - types['international']['length'] + 1);
     }
 
     let index;
-    let X;
-    let Y;
     let i;
     let numberDelimiter = types[options['type']]['delimiters']['number'];
     let areaCodeDelimiter = types[options['type']]['delimiters']['areaCode'];
@@ -107,8 +107,8 @@ module.exports = class phoneNumberFormatter {
       for (i = this.string.length - 1; i >= 0; i--) {
         if (!newString.includes(numberDelimiter) && !newString.includes(areaCodeDelimiter)) break;
 
-        X = newString.lastIndexOf(numberDelimiter);
-        Y = newString.lastIndexOf(areaCodeDelimiter);
+        let X = newString.lastIndexOf(numberDelimiter);
+        let Y = newString.lastIndexOf(areaCodeDelimiter);
         index = (X > Y) ? X : Y;
         newString = replaceAt(newString, index, this.string[i]);
       }
@@ -127,7 +127,7 @@ module.exports = class phoneNumberFormatter {
       }
     }
 
-    // Remove excess X's and Y's
+    // Remove excess delimiters
     newString = newString.replace(new RegExp(numberDelimiter + '|' + areaCodeDelimiter, 'g'), '');
     this.string = newString;
 
@@ -157,6 +157,10 @@ module.exports = class phoneNumberFormatter {
   toString() {
     return this.string;
   }
+
+  getType() {
+    return this.type;
+  }
 }
 
 module.exports.addType = function(name, string, options) {
@@ -165,12 +169,15 @@ module.exports.addType = function(name, string, options) {
     areaCode: 'Y'
   }, options);
 
-  types[name] = {};
-  types[name]['key'] = string;
-  types[name]['length'] = string.replace(/[^0-9]/g, '').length;
-  types[name]['delimiters'] = {};
-  types[name]['delimiters']['number'] = options['number'];
-  types[name]['delimiters']['areaCode'] = options['areaCode'];
+  types[name] = {
+    key: string,
+    length: string.replace(/[^0-9]/g, '').length,
+    delimiters: {
+      number: options['number'],
+      areaCode: options['areaCode']
+    }
+  }
+
   return true;
 }
 
