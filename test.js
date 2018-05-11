@@ -3,9 +3,10 @@ const phoneNumberFormatter = require('./index.js');
 
 console.log('--- Testing ---');
 
-// Checking the type of unformatted numbers
+// Checking the type and area code of unformatted numbers
 let number = new phoneNumberFormatter('1248163');
 assert.deepEqual(number.getType(), null);
+assert.deepEqual(number.getAreaCode(), null);
 
 // Default formatting
 number = new phoneNumberFormatter('1234567').format();
@@ -26,9 +27,7 @@ assert.deepEqual(number.toString(), '456-7890');
 // Checking `domestic` type
 number = new phoneNumberFormatter('1234567890').format({type: 'domestic'});
 assert.deepEqual(number.toString(), '(123) 456-7890');
-
-// Checking getting types
-assert.deepEqual(number.getType(), 'domestic');
+assert.deepEqual(number.getAreaCode(), null);
 
 // Checking `international` type
 number = new phoneNumberFormatter('01234567890').format({type: 'international'});
@@ -37,6 +36,10 @@ assert.deepEqual(number.toString(), '+0 (123) 456-7890');
 // Checking if normally-short numbers can be formatted to `international` with the correct area code
 number = new phoneNumberFormatter('1234567890').format({type: 'international', areaCode: '3'});
 assert.deepEqual(number.toString(), '+3 (123) 456-7890');
+
+// Checking getting types
+assert.deepEqual(number.getType(), 'international');
+assert.deepEqual(number.getAreaCode(), '3');
 
 // Checking if `international` numbers with area codes exclude extra characters
 number = new phoneNumberFormatter('1.618033988749894').format({type: 'international', areaCode: '0'});
@@ -79,6 +82,7 @@ number = new phoneNumberFormatter('123456').format({type: 'short'});
 assert.deepEqual(number.toString(), '123-456');
 number = new phoneNumberFormatter('456').format({type: 'short', areaCode: '123'});
 assert.deepEqual(number.toString(), '123-456');
+assert.deepEqual(number.getAreaCode(), '123');
 
 // Checking custom type with letters
 phoneNumberFormatter.addType('customDelimiters', '(VVV) WWW-XRAY', {number: 'W', areaCode: 'V'});

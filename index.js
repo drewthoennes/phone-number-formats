@@ -58,6 +58,7 @@ module.exports = class phoneNumberFormatter {
     }
     this.string = string;
     this.type = null;
+    this.areaCode = null;
   }
 
   format(options) {
@@ -91,8 +92,6 @@ module.exports = class phoneNumberFormatter {
       }
     }
 
-    this.type = options['type'];
-
     // Set string to the area code and the number minus the area code (assumes type is international)
     if (options['areaCode'] && options['type'] === 'international') {
       this.string = options['areaCode'] + this.string.substring(this.string.length - types['international']['length'] + 1);
@@ -109,7 +108,12 @@ module.exports = class phoneNumberFormatter {
 
         let X = newString.lastIndexOf(numberDelimiter);
         let Y = newString.lastIndexOf(areaCodeDelimiter);
-        index = (X > Y) ? X : Y;
+        if (X > Y) {
+          index = X;
+        } else {
+          index = Y;
+          options['areaCode'] += this.string[i];
+        }
         newString = replaceAt(newString, index, this.string[i]);
       }
     } else {
@@ -142,6 +146,9 @@ module.exports = class phoneNumberFormatter {
       }
     }
 
+    this.type = options['type'];
+    this.areaCode = options['areaCode'] === '' ? null : options['areaCode'];
+
     return this;
   }
 
@@ -160,6 +167,10 @@ module.exports = class phoneNumberFormatter {
 
   getType() {
     return this.type;
+  }
+
+  getAreaCode() {
+    return this.areaCode;
   }
 }
 
